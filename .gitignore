@@ -1,0 +1,13 @@
+node_modules/
+__pycache__/
+.venv/
+*.pyc
+.DS_Store
+.databricks/
+.env
+.env.local
+*.tsbuildinfo
+# stray screenshot / scratch artifacts at repo root
+/current-state.png
+/*.screenshot.png
+# keep app/frontend/dist committed — it's the deployed SPA

@@ -1,0 +1,91 @@
+bundle:
+  name: dc-factbook
+
+include:
+  - resources/*.yml
+
+variables:
+  warehouse_id:
+    description: "SQL Warehouse ID the app uses for the JSON API, edits, and Genie."
+    default: ""
+  catalog:
+    description: "Unity Catalog holding the DC sites table."
+    default: "dc_factbook"
+  schema:
+    description: "Schema holding the dc_sites table."
+    default: "sites"
+  genie_space_id:
+    description: "Genie Space ID backing 'Ask about this site'."
+    default: ""
+  app_name:
+    description: "Databricks App resource name."
+    default: "dc-factbook-${bundle.target}"
+  editors:
+    description: "Comma-separated emails allowed to edit/upload data. '*' = everyone can edit."
+    default: "*"
+  app_title:
+    description: "App name shown in the header (rebrand per account)."
+    default: "DC Fact Book"
+  app_subtitle:
+    description: "Subtitle shown under the app name."
+    default: "Distribution Network Directory"
+
+targets:
+  # Fill in your own workspace + resource IDs, then `databricks bundle deploy -t dev`.
+  dev:
+    default: true
+    mode: development
+    workspace:
+      profile: YOUR_PROFILE
+    variables:
+      warehouse_id: "YOUR_WAREHOUSE_ID"
+      catalog: "dc_factbook"
+      schema: "sites"
+      genie_space_id: "YOUR_GENIE_SPACE_ID"
+
+  # Example reference deployment (Databricks field-eng sandbox). Replace with your own.
+  e2demo:
+    mode: production
+    workspace:
+      profile: DEFAULT
+      root_path: /Workspace/Users/sumit.prakash@databricks.com/.bundle/${bundle.name}/${bundle.target}
+    variables:
+      app_name: "dc-factbook"
+      warehouse_id: "c4c2b14f526c4abd"
+      catalog: "dc_factbook"
+      schema: "sites"
+      genie_space_id: "01f1b37e81881ec08458ecdc53d518b8"
+      editors: "sumit.prakash@databricks.com"
+
+  # Sumit sandbox (dbc-6ddceb90-7812) — synthetic data, Genie added later.
+  factbook-ws:
+    mode: production
+    workspace:
+      profile: factbook-ws
+    variables:
+      app_name: "dc-factbook"
+      warehouse_id: "3228da2724eeb506"
+      catalog: "dc_factbook"
+      schema: "sites"
+      genie_space_id: "01f1c3d37d0210c5b628793426d79ace"
+      editors: "abhishekpe16@gmail.com"
+      app_title: "DC Fact Book"
+      app_subtitle: "Distribution Network Directory"
+
+  # Per-account deployment — copy this block, fill in your workspace + resource IDs,
+  # rebrand via app_title/app_subtitle, list your data maintainers in `editors`,
+  # then: databricks bundle deploy -t customer
+  customer:
+    mode: production
+    workspace:
+      profile: YOUR_PROFILE
+      root_path: /Workspace/Users/YOUR_USER/.bundle/${bundle.name}/${bundle.target}
+    variables:
+      app_name: "dc-factbook"
+      warehouse_id: "YOUR_WAREHOUSE_ID"
+      catalog: "YOUR_CATALOG"
+      schema: "sites"
+      genie_space_id: "YOUR_GENIE_SPACE_ID"
+      editors: "admin@yourcompany.com"
+      app_title: "DC Fact Book"
+      app_subtitle: "Distribution Network Directory"

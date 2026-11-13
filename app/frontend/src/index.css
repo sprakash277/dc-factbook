@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #0b1e3b;
+  --color-navy2: #12305a;
+  --color-gold: #c6a15b;
+  --color-gold-deep: #a9863f;
+  --color-teal: #2a6f7f;
+  --color-canvas: #f5f6f8;
+  --color-ink: #14213d;
+  --color-muted: #667085;
+  --color-line: #e6e8ec;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+html, body, #root { height: 100%; margin: 0; }
+body { background: var(--color-canvas); color: var(--color-ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+.shadow-soft { box-shadow: 0 1px 2px rgba(11,30,59,.05), 0 10px 28px rgba(11,30,59,.06); }
+.rsm-geography:focus { outline: none; }
+
+/* map polish */
+@keyframes markerIn { from { opacity: 0; transform: scale(.2); } to { opacity: 1; transform: scale(1); } }
+@keyframes markerPulse { 0% { transform: scale(1); opacity: .5; } 70% { transform: scale(2.6); opacity: 0; } 100% { transform: scale(2.6); opacity: 0; } }
+.marker-enter { animation: markerIn .5s cubic-bezier(.2,.7,.3,1) both; transform-box: fill-box; transform-origin: center; }
+.marker-pulse { animation: markerPulse 1.7s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+.geo-tr { transition: fill .2s ease, stroke .2s ease; }
+.mk-dot { transition: r .18s ease, filter .18s ease; }
+.tip-card { animation: markerIn .16s ease both; }
+@keyframes slideIn { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: translateX(0); } }
+.slide-in { animation: slideIn .28s cubic-bezier(.2,.7,.3,1) both; }

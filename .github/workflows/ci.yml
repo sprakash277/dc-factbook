@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      # ---- Frontend: install + production build ----
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Build frontend
+        working-directory: app/frontend
+        # package-lock.json pins the internal Databricks npm proxy, which public CI
+        # runners can't reach, so resolve fresh from the public registry here.
+        run: |
+          npm install --registry https://registry.npmjs.org/ --legacy-peer-deps --no-audit --no-fund
+          npm run build
+
+      # ---- Backend: byte-compile check ----
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile backend
+        run: python -m py_compile app/backend/main.py
+
+      # ---- DAB: validate (only when workspace secrets are configured) ----
+      - name: Install Databricks CLI
+        if: ${{ env.DATABRICKS_HOST != '' }}
+        uses: databricks/setup-cli@main
+      - name: Validate bundle
+        if: ${{ env.DATABRICKS_HOST != '' }}
+        run: databricks bundle validate -t e2demo

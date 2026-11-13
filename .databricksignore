@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+*.egg-info/
+
+# Node / Frontend (keep dist/ — it's the deployed SPA)
+node_modules/
+*.tsbuildinfo
+
+# Databricks
+.databricks/
+
+# VCS / CI
+.git/
+.github/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Environment
+.env
+.env.local
+
+# Data setup scripts (run separately, not part of the app image)
+data/
+
+# Docs
+docs/
+README.md

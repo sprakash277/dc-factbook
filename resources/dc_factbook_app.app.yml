@@ -1,0 +1,36 @@
+resources:
+  apps:
+    dc_factbook_app:
+      name: ${var.app_name}
+      description: "DC Fact Book — a US map of distribution centers with per-site fact pages and a Genie 'ask about this site' assistant."
+      source_code_path: ../app
+      # User authorization: queries run with the signed-in user's token, so Unity Catalog
+      # and warehouse permissions apply per user.
+      user_api_scopes:
+        - sql
+      config:
+        env:
+          - name: DATABRICKS_WAREHOUSE_ID
+            value: ${var.warehouse_id}
+          - name: CATALOG
+            value: ${var.catalog}
+          - name: SCHEMA
+            value: ${var.schema}
+          - name: GENIE_SPACE_ID
+            value: ${var.genie_space_id}
+          - name: EDITORS
+            value: ${var.editors}
+          - name: APP_TITLE
+            value: ${var.app_title}
+          - name: APP_SUBTITLE
+            value: ${var.app_subtitle}
+      resources:
+        - name: sql-warehouse
+          sql_warehouse:
+            id: ${var.warehouse_id}
+            permission: CAN_USE
+        - name: genie-space
+          genie_space:
+            name: "DC Fact Book Assistant"
+            space_id: ${var.genie_space_id}
+            permission: CAN_RUN

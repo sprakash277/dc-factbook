@@ -1,0 +1,31 @@
+command:
+  - "python"
+  - "-m"
+  - "uvicorn"
+  - "backend.main:app"
+  - "--host"
+  - "0.0.0.0"
+  - "--port"
+  - "8000"
+
+# Default env for a manual `databricks apps deploy`. When deployed via the DAB
+# (`databricks bundle deploy`), resources/dc_factbook_app.app.yml overrides these
+# from the target's variables.
+env:
+  - name: "DATABRICKS_WAREHOUSE_ID"
+    value: "c4c2b14f526c4abd"
+  - name: "CATALOG"
+    value: "dc_factbook"
+  - name: "SCHEMA"
+    value: "sites"
+  - name: "GENIE_SPACE_ID"
+    value: "01f1b37e81881ec08458ecdc53d518b8"
+  # Write-access allowlist (comma-separated emails). Everyone else is view-only.
+  # Use "*" to let every viewer edit.
+  - name: "EDITORS"
+    value: "sumit.prakash@databricks.com"
+  # Branding — any account can rebrand here without touching code.
+  - name: "APP_TITLE"
+    value: "DC Fact Book"
+  - name: "APP_SUBTITLE"
+    value: "Distribution Network Directory"
